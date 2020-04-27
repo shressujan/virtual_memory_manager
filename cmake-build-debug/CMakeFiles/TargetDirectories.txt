@@ -1,0 +1,3 @@
+/Users/sujanshrestha/Desktop/spring 2020/Operating System/PA5/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/sujanshrestha/Desktop/spring 2020/Operating System/PA5/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/sujanshrestha/Desktop/spring 2020/Operating System/PA5/cmake-build-debug/CMakeFiles/PA5.dir
