@@ -1,4 +1,4 @@
-# Install script for directory: /Users/sujanshrestha/Desktop/spring 2020/Operating System/PA5
+# Install script for directory: /Users/sujanshrestha/Desktop/Operating System/memory_manager
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/sujanshrestha/Desktop/spring 2020/Operating System/PA5/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/sujanshrestha/Desktop/Operating System/memory_manager/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

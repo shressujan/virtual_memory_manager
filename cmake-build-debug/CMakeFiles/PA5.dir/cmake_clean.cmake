@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/PA5.dir/part1/template.c.o"
+  "CMakeFiles/PA5.dir/part1/part1.c.o"
   "PA5"
   "PA5.pdb"
 )

@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/sujanshrestha/Desktop/spring 2020/Operating System/PA5/part1/template.c" "/Users/sujanshrestha/Desktop/spring 2020/Operating System/PA5/cmake-build-debug/CMakeFiles/PA5.dir/part1/template.c.o"
+  "/Users/sujanshrestha/Desktop/Operating System/memory_manager/part1/part1.c" "/Users/sujanshrestha/Desktop/Operating System/memory_manager/cmake-build-debug/CMakeFiles/PA5.dir/part1/part1.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 
