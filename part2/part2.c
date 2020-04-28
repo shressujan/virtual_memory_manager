@@ -7,7 +7,7 @@
  *
  ****************************************************************/
 
-#include "part1.h"
+#include "part2.h"
 
 
 void get_page_and_offset(int logical_address, int *page_num, int *offset) {
@@ -113,8 +113,8 @@ void update_TLB(int page_num, int frame_num) {
 
 int main(int argc, char **argv) {
 
-    if (argc != 3) {
-        fprintf(stderr, "Usage %s backing_store_file address_file\n", argv[0]);
+    if (argc != 4) {
+        fprintf(stderr, "Usage %s backing_store_file address_file strategy\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
