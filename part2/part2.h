@@ -28,8 +28,9 @@ const char *LRU = "lru";
 int TLB[TLB_SIZE][2];
 int PAGE_TABLE[PAGE_TABLE_SIZE][2];
 int PHYSICAL_MEMORY[PHYSICAL_MEMORY_SIZE][FRAME_SIZE];
+int LRU_FRAME_TABLE[PHYSICAL_MEMORY_SIZE];
 
-int page_num, frame_num;
+int page_num, frame_num, lru_frame_index = 0;
 int offset, num_page_fault = 0, frame = 0, num_addr_translated = 0, num_TLB_hits = 0;
 
 char strategy[5];

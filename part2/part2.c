@@ -38,7 +38,17 @@ int get_frame_pageTable(int page_num) {
 
 int get_available_frame(const char *strategy) {
     if(strcmp(strategy, FIFO) == 0) { // If the strategy used is FIFO
-        frame = frame % PHYSICAL_MEMORY_SIZE;
+        frame = frame % PHYSICAL_MEMORY_SIZE; // Ensures the frame is not OUT OF BOUNDS
+    } else {    // If the strategy used is LRU
+        int lru_frame_index = -1;
+        int lru = INT16_MAX;
+        for (int i = 0; i < PHYSICAL_MEMORY_SIZE; ++i) {
+            if (LRU_FRAME_TABLE[i] < lru) {
+                lru = LRU_FRAME_TABLE[i];
+                lru_frame_index = i;
+            }
+        }
+        frame = lru_frame_index % PHYSICAL_MEMORY_SIZE;
     }
     return frame;
 }
@@ -62,7 +72,7 @@ void backing_store_to_memory(int page_num, int frame_num, const char *fname) {
 }
 
 void update_page_table(int page_num, int frame_num) {
-
+    // Set the PAGE_TABLE bits to -1 if frame_num already existed!
     for (int i = 0; i < PAGE_TABLE_SIZE; i++) {
         if (PAGE_TABLE[i][1] == frame_num) {
             PAGE_TABLE[i][0] = -1;
@@ -98,7 +108,7 @@ void update_TLB(int page_num, int frame_num) {
             TLB[i][1] = frame_num;
             break;
         }
-        // IF page_num found somewhere in TLB, update the position to most recent
+        // IF page_num found somewhere in TLB, update its position to the end of the list
         if(TLB[i][0] == page_num) {
             int j;
             for (j = i; j < TLB_SIZE -1; ++j) {
@@ -186,6 +196,8 @@ int main(int argc, char **argv) {
         int value = PHYSICAL_MEMORY[frame_num][offset];
         fprintf(output_file, "Virtual address: %d Physical address: %d Value: %d\n", logical_address,
                 (frame_num << 8) | offset, value);
+        lru_frame_index++;
+        LRU_FRAME_TABLE[frame_num] = lru_frame_index;
         num_addr_translated++;
     }
     fclose(address_file);
