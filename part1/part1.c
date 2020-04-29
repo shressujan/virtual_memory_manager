@@ -51,7 +51,6 @@ void backing_store_to_memory(int page_num, int frame_num, const char *fname) {
         fprintf(stderr, "Error reading from backing store file\n");
     }
     // Copy the content of value into PHYSICAL_MEMORY
-//    memcpy(PHYSICAL_MEMORY[frame_num], value, PAGE_TABLE_SIZE * sizeof(signed char));
     for (int i = 0; i < FRAME_SIZE; ++i) {
         PHYSICAL_MEMORY[frame_num][i] = buffer[i];
     }
@@ -151,12 +150,12 @@ int main(int argc, char **argv) {
     char address[BUFFER_SIZE];
     // Looping through the address file until empty
     while (fgets(address, BUFFER_SIZE, address_file) != NULL) {
-        int logical_address = atoi(address);
-        get_page_and_offset(logical_address, &page_num, &offset);
-        frame_num = get_frame_TLB(page_num);
+        int logical_address = atoi(address); //convert char to integer
+        get_page_and_offset(logical_address, &page_num, &offset); // getting page number and offset from given logical address
+        frame_num = get_frame_TLB(page_num); //getting frame number from TLB if present
         if (frame_num == NOT_FOUND) {
             frame_num = get_frame_pageTable(page_num);
-            if (frame_num == NOT_FOUND) {
+            if (frame_num == NOT_FOUND) { //Page fault occurs
                 frame_num = get_available_frame();
                 backing_store_to_memory(page_num, frame_num, backing_file);
                 update_page_table(page_num, frame_num);

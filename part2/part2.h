@@ -19,11 +19,11 @@
 
 #define PAGE_TABLE_SIZE 256
 #define FRAME_SIZE 256
-#define PHYSICAL_MEMORY_SIZE 256
+#define PHYSICAL_MEMORY_SIZE 128
 #define TLB_SIZE 16
 
-#define FIFO "fifo"
-#define LRU "lru"
+const char *FIFO = "fifo";
+const char *LRU = "lru";
 
 int TLB[TLB_SIZE][2];
 int PAGE_TABLE[PAGE_TABLE_SIZE][2];
@@ -31,6 +31,8 @@ int PHYSICAL_MEMORY[PHYSICAL_MEMORY_SIZE][FRAME_SIZE];
 
 int page_num, frame_num;
 int offset, num_page_fault = 0, frame = 0, num_addr_translated = 0, num_TLB_hits = 0;
+
+char strategy[5];
 
 typedef enum {
     NO_ERROR, NOT_FOUND = -1
@@ -67,10 +69,10 @@ int get_frame_pageTable(int page_num);
 
 /***********************************************************
  * Function: get_available_frame - get a valid frame
- * Parameters: none
+ * Parameters: strategy
  * Return Value: frame number
  ***********************************************************/
-int get_available_frame();
+int get_available_frame(const char *strategy);
 
 /***********************************************************
  * Function: backing_store_to_memory - finds the page in the backing store and

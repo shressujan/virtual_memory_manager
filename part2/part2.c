@@ -36,7 +36,10 @@ int get_frame_pageTable(int page_num) {
     return NOT_FOUND;
 }
 
-int get_available_frame() {
+int get_available_frame(const char *strategy) {
+    if(strcmp(strategy, FIFO) == 0) { // If the strategy used is FIFO
+        frame = frame % PHYSICAL_MEMORY_SIZE;
+    }
     return frame;
 }
 
@@ -51,7 +54,6 @@ void backing_store_to_memory(int page_num, int frame_num, const char *fname) {
         fprintf(stderr, "Error reading from backing store file\n");
     }
     // Copy the content of value into PHYSICAL_MEMORY
-//    memcpy(PHYSICAL_MEMORY[frame_num], value, PAGE_TABLE_SIZE * sizeof(signed char));
     for (int i = 0; i < FRAME_SIZE; ++i) {
         PHYSICAL_MEMORY[frame_num][i] = buffer[i];
     }
@@ -60,6 +62,15 @@ void backing_store_to_memory(int page_num, int frame_num, const char *fname) {
 }
 
 void update_page_table(int page_num, int frame_num) {
+
+    for (int i = 0; i < PAGE_TABLE_SIZE; i++) {
+        if (PAGE_TABLE[i][1] == frame_num) {
+            PAGE_TABLE[i][0] = -1;
+            PAGE_TABLE[i][1] = -1;
+            break;
+        }
+    }
+
     for (int i = 0; i < PAGE_TABLE_SIZE; i++) {
         if (PAGE_TABLE[i][0] == -1) {
             PAGE_TABLE[i][0] = page_num;
@@ -117,7 +128,13 @@ int main(int argc, char **argv) {
         fprintf(stderr, "Usage %s backing_store_file address_file strategy\n", argv[0]);
         exit(EXIT_FAILURE);
     }
-
+    // Loading the input strategy for handling page faults
+    if (strcmp(argv[3], FIFO) != 0 && strcmp(argv[3], LRU) != 0) {
+        fprintf(stderr, "Error loading strategy %s\n", argv[3]);
+        exit(EXIT_FAILURE);
+    }
+    // Storing the value of argv[3] inside strategy
+    strcpy(strategy, argv[3]);
     const char *backing_file = argv[1];
     FILE *address_file = fopen(argv[2], "r");
     if (address_file == NULL) {
@@ -151,13 +168,13 @@ int main(int argc, char **argv) {
     char address[BUFFER_SIZE];
     // Looping through the address file until empty
     while (fgets(address, BUFFER_SIZE, address_file) != NULL) {
-        int logical_address = atoi(address);
-        get_page_and_offset(logical_address, &page_num, &offset);
-        frame_num = get_frame_TLB(page_num);
+        int logical_address = atoi(address); //convert char to integer
+        get_page_and_offset(logical_address, &page_num, &offset); // getting page number and offset from given logical address
+        frame_num = get_frame_TLB(page_num); //getting frame number from TLB if present
         if (frame_num == NOT_FOUND) {
             frame_num = get_frame_pageTable(page_num);
-            if (frame_num == NOT_FOUND) {
-                frame_num = get_available_frame();
+            if (frame_num == NOT_FOUND) {  //Page fault occurs, handling page fault
+                frame_num = get_available_frame(strategy);
                 backing_store_to_memory(page_num, frame_num, backing_file);
                 update_page_table(page_num, frame_num);
                 frame++;
