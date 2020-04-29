@@ -7,6 +7,8 @@ You can run the following four commands to compile and run on cse.unl.edu:
 cd sshrestha11_pa5/part1
 make
 ./part1 BACKING_STORE.bin addresses.txt
+
+This will produce a correct.txt file with information about virtual and physical memory.
 ```
 
 ### 1.2 Compiling & Running part2 on CSE
@@ -19,6 +21,8 @@ make
 ./part2 BACKING_STORE.bin addresses1.txt lru
 ./part2 BACKING_STORE.bin addresses2.txt fifo
 ./part2 BACKING_STORE.bin addresses2.txt lru
+
+They will each produce a correct.txt file with information about virtual and physical memory.
 ```
 
 ### 1.3 Cleaning the folder(removes the current binary file and .out files)
